@@ -1,12 +1,14 @@
 import './App.css';
-import Header from './components/Header/Header.jsx';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home/Home.jsx';
 
 const App = () => {
    return (
       <div className="App">
-         <Header />
-         <Home />
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/checkout" element={<h1>Checkout</h1>} />
+         </Routes>
       </div>
    );
 };
