@@ -10,7 +10,6 @@ const Login = () => {
 
    const signIn = (e) => {
       e.preventDefault();
-
       auth
          .signInWithEmailAndPassword(email, password)
          // eslint-disable-next-line no-shadow
@@ -22,7 +21,6 @@ const Login = () => {
 
    const register = (e) => {
       e.preventDefault();
-
       auth
          .createUserWithEmailAndPassword(email, password)
          // eslint-disable-next-line no-shadow

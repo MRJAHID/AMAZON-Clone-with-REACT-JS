@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 import { ShoppingBasket, Search } from '@mui/icons-material';
 import { useStateValue } from '../contexts/StateProvider';
+import { auth } from '../../firebase';
 
 const Header = () => {
-   const [{ basket }, dispatch] = useStateValue();
-   console.log(dispatch);
+   const [{ basket, user }, dispatch] = useStateValue();
 
-   // const handleAuthenticaton = () => {
-   //    // if (user) {
-   //    //    auth.signOut();
-   //    // }
-   // };
+   const handleAuthentication = () => {
+      if (user) {
+         auth.signOut();
+      }
+   };
 
    return (
       <div className="header">
@@ -30,10 +30,15 @@ const Header = () => {
          </div>
 
          <div className="header__nav">
-            <Link to="/login">
-               <div className="header__option">
-                  <span className="header__optionLineOne">Hello Guest</span>
-                  <span className="header__optionLineTwo">Sign In</span>
+            <Link to={!user && '/login'}>
+               {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+               <div onClick={handleAuthentication} className="header__option">
+                  <span className="header__optionLineOne">
+                     Hello {!user ? 'Guest' : user.email}
+                  </span>
+                  <span className="header__optionLineTwo">
+                     {user ? 'Sign Out' : 'Sign In'}
+                  </span>
                </div>
             </Link>
 
