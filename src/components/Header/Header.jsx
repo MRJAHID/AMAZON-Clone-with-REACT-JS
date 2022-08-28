@@ -2,8 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { ShoppingBasket, Search } from '@mui/icons-material';
+import { useStateValue } from '../contexts/StateProvider';
 
 const Header = () => {
+   const [{ basket }, dispatch] = useStateValue();
+   console.log(dispatch);
+
    return (
       <div className="Header">
          {/* Logo */}
@@ -42,10 +46,10 @@ const Header = () => {
                <span className="Header-optionLineTwo">& Orders</span>
             </div>
             {/* Cart */}
-            <Link to="/cart">
+            <Link to="/checkout">
                <div className="Header-optionCart">
                   <ShoppingBasket />
-                  <span className="Header-cartCount">getCount</span>
+                  <span className="Header-cartCount">{basket?.length}</span>
                </div>
             </Link>
          </div>

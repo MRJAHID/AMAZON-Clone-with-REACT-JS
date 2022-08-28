@@ -19,8 +19,16 @@ const Home = () => {
                   <Product />
                </div>
                <div className="Home-row">
-                  <Product />
-                  <Product />
+                  <Product
+                     title="High-Back Gaming Chair PC Office Chair Computer Racing Chair"
+                     image="https://m.media-amazon.com/images/I/61t4mpabO+L._AC_SX679_.jpg"
+                     price="$500"
+                  />
+                  <Product
+                     title="High-Back Gaming Chair PC Office Chair Computer Racing Chair"
+                     image="https://m.media-amazon.com/images/I/61t4mpabO+L._AC_SX679_.jpg"
+                     price="$500"
+                  />
                   <Product />
                </div>
             </div>

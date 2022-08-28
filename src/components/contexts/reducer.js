@@ -2,6 +2,10 @@ export const initialState = {
    basket: [],
 };
 
+// Selector
+export const getBasketTotals = (basket) =>
+   basket?.reduce((amount, item) => item.price + amount, 0);
+
 // eslint-disable-next-line consistent-return
 const reducer = (state, action) => {
    switch (action.type) {
