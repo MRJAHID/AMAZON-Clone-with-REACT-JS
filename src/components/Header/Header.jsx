@@ -8,48 +8,53 @@ const Header = () => {
    const [{ basket }, dispatch] = useStateValue();
    console.log(dispatch);
 
+   // const handleAuthenticaton = () => {
+   //    // if (user) {
+   //    //    auth.signOut();
+   //    // }
+   // };
+
    return (
-      <div className="Header">
-         {/* Logo */}
+      <div className="header">
          <Link to="/">
-            <div className="Header-logo">
-               <img
-                  src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
-                  alt="Logo"
-               />
-            </div>
+            <img
+               className="header__logo"
+               src="http://pngimg.com/uploads/amazon/amazon_PNG11.png"
+               alt="Logo"
+            />
          </Link>
-         {/* Address */}
-         <div className="Header-optionAddress">
-            {/* icon */}
-            <div className="Header-option">
-               <span className="Header-optionLineOne">Hello,</span>
-               <span className="Header-optionLineTwo">Select your address</span>
-            </div>
+
+         <div className="header__search">
+            <input className="header__searchInput" type="text" />
+            <Search className="header__searchIcon" />
          </div>
-         {/* Search */}
-         <div className="Header-search">
-            <input className="Header-searchInput" type="text" />
-            <div className="Header-searchIconContainer">
-               <Search />
+
+         <div className="header__nav">
+            <Link to="/login">
+               <div className="header__option">
+                  <span className="header__optionLineOne">Hello Guest</span>
+                  <span className="header__optionLineTwo">Sign In</span>
+               </div>
+            </Link>
+
+            <Link to="/orders">
+               <div className="header__option">
+                  <span className="header__optionLineOne">Returns</span>
+                  <span className="header__optionLineTwo">& Orders</span>
+               </div>
+            </Link>
+
+            <div className="header__option">
+               <span className="header__optionLineOne">Your</span>
+               <span className="header__optionLineTwo">Prime</span>
             </div>
-         </div>
-         <div className="Header-navItems">
-            {/* Login name */}
-            <div className="Header-option">
-               <span className="Header-optionLineOne">Hello, Nazariy</span>
-               <span className="Header-optionLineTwo">Account & Lsits</span>
-            </div>
-            {/* Orders */}
-            <div className="Header-option">
-               <span className="Header-optionLineOne">Returns</span>
-               <span className="Header-optionLineTwo">& Orders</span>
-            </div>
-            {/* Cart */}
+
             <Link to="/checkout">
-               <div className="Header-optionCart">
+               <div className="header__optionBasket">
                   <ShoppingBasket />
-                  <span className="Header-cartCount">{basket?.length}</span>
+                  <span className="header__optionLineTwo header__basketCount">
+                     {basket?.length}
+                  </span>
                </div>
             </Link>
          </div>
