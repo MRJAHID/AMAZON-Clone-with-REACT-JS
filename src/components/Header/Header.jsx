@@ -10,7 +10,7 @@ const Header = () => {
          <Link to="/">
             <div className="Header-logo">
                <img
-                  src="https://mikekitko.com/wp-content/uploads/2019/10/amazon-logo-white-768x232.png"
+                  src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
                   alt="Logo"
                />
             </div>
