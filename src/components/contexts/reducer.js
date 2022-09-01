@@ -15,6 +15,12 @@ const reducer = (state, action) => {
             basket: [...state.basket, action.item],
          };
 
+      case 'EMPTY_BASKET':
+         return {
+            ...state,
+            basket: [],
+         };
+
       case 'REMOVE_FROM_BASKET':
          // eslint-disable-next-line no-case-declarations
          const index = state.basket.findIndex(

@@ -16,6 +16,7 @@ const Login = () => {
          .then((auth) => {
             navigate('/', { replace: true });
          })
+         // eslint-disable-next-line no-alert
          .catch((error) => alert(error.message));
    };
 
@@ -30,6 +31,7 @@ const Login = () => {
                navigate('/', { replace: true });
             }
          })
+         // eslint-disable-next-line no-alert
          .catch((error) => alert(error.message));
    };
 
