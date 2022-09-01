@@ -1,12 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Payment.css';
+import { Link, useNavigate } from 'react-router-dom';
+import CurrencyFormat from 'react-currency-format';
+import axios from 'axios';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import Header from '../Header/Header.jsx';
 import CheckoutProduct from '../Checkout/CheckoutProduct.jsx';
 import { useStateValue } from '../contexts/StateProvider';
-import { Link } from 'react-router-dom';
+import { getBasketTotals } from '../contexts/reducer';
 
 const Payment = () => {
    const [{ basket, user }, dispatch] = useStateValue();
+   const navigate = useNavigate();
+   const stripe = useStripe();
+   const elements = useElements();
+
+   const [succeeded, setSucceeded] = useState(false);
+   const [processing, setProcessing] = useState('');
+   const [error, setError] = useState(null);
+   const [disabled, setDisabled] = useState(true);
+   const [clientSecret, setClientSecret] = useState(true);
+
+   useEffect(() => {
+      // generate the special stripe secret which allows us to charge a customer
+      const getClientSecret = async () => {
+         const response = await axios({
+            method: 'post',
+            // Stripe expects the total in a currencies subunits
+            url: `/payments/create?total=${getBasketTotals(basket) * 100}`,
+         });
+         setClientSecret(response.data.clientSecret);
+      };
+
+      getClientSecret();
+   }, [basket]);
+
+   const handleSubmit = async (event) => {
+      event.preventDefault();
+      // Do all the fancy stripe work here
+      setProcessing(true);
+      const payload = await stripe
+         .confirmCardPayment(clientSecret, {
+            payment_method: {
+               card: elements.getElement(CardElement),
+            },
+         })
+         .then(({ paymentIntent }) => {
+            // PaymentIntent = Payment Confirmation
+            setSucceeded(true);
+            setError(null);
+            setProcessing(false);
+            navigate('/orders', { replace: true });
+         });
+   };
+
+   const handleChange = (event) => {
+      // Listen for changes in the CardElement
+      // and display any errors as the customer types their card details
+      setDisabled(event.empty);
+      setError(event.error ? event.error.message : '');
+   };
 
    return (
       <>
@@ -50,21 +103,22 @@ const Payment = () => {
                   <div className="payment__details">
                      {/* Stripe magic will go */}
 
-                     <form>
+                     <form onSubmit={handleSubmit}>
                         <CardElement onChange={handleChange} />
-
                         <div className="payment__priceContainer">
                            <CurrencyFormat
                               renderText={(value) => (
                                  <h3>Order Total: {value}</h3>
                               )}
                               decimalScale={2}
-                              value={getBasketTotal(basket)}
-                              displayType={'text'}
-                              thousandSeparator={true}
-                              prefix={'$'}
+                              value={getBasketTotals(basket)}
+                              displayType="text"
+                              thousandSeparator
+                              prefix="$"
                            />
+
                            <button
+                              type="submit"
                               disabled={processing || disabled || succeeded}>
                               <span>
                                  {processing ? <p>Processing</p> : 'Buy Now'}
@@ -73,7 +127,7 @@ const Payment = () => {
                         </div>
 
                         {/* Errors */}
-                        {error && <div>{error}</div>}
+                        {error && <div> {error} </div>}
                      </form>
                   </div>
                </div>
