@@ -4,6 +4,7 @@ import { useStateValue } from '../contexts/StateProvider';
 
 const Product = ({ id, title, image, price, rating }) => {
    const [{ basket, user }, dispatch] = useStateValue();
+
    const addToBasket = () => {
       // Dispatch the item into the data layer
       dispatch({
@@ -19,21 +20,26 @@ const Product = ({ id, title, image, price, rating }) => {
    };
 
    return (
-      <div className="Product">
-         <div className="Product-description">
-            <span className="Product-title">{title}</span>
-            <span className="Product-price">{price}</span>
-            <span className="Product-rating">
-               <p>🌟</p>
-               <p>🌟</p>
-               <p>🌟</p>
-               <p>🌟</p>
-               <p>🌟</p>
-            </span>
+      <div className="product">
+         <div className="product__info">
+            <p>{title}</p>
+            <p className="product__price">
+               <small>$</small>
+               <strong>{price}</strong>
+            </p>
+            <div className="product__rating">
+               {Array(rating)
+                  .fill()
+                  .map((_, i) => (
+                     <p>🌟</p>
+                  ))}
+            </div>
          </div>
-         <img src={image} alt="book" />
+
+         <img src={image} alt="Product" />
+
          <button type="button" onClick={addToBasket}>
-            Add to Cart
+            Add to Basket
          </button>
       </div>
    );
